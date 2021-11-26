@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace FileData
@@ -10,6 +11,8 @@ namespace FileData
     {
         public IList<Adult> Adults { get; private set; }
         public IList<Adult> Sadults { get; private set; }
+
+        public DBContext DbContext = new DBContext() ;
 
         private readonly string adultsFile = "adults.json";
         private readonly string sadultsFile = "sadults.json";
