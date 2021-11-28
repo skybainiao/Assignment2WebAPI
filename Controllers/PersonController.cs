@@ -23,58 +23,9 @@ namespace api.Controllers
         public PersonController()
         {
             _service = new SqliteService(_dbContext);
+            _service.addUser(new User("Chen", "dsajio"));
         }
-        
-        [HttpGet]
-        public async Task<ActionResult<IList<Adult>>> GetUsers()
-        {
-            Users = await _service.getUsers();
-            try
-            {
-                IList<User> users = Users;
-                return Ok(users);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-        
-        [HttpPost]
-        public async Task<ActionResult<User>> AddUser([FromBody] User suser)
-        {
-            try
-            {
-                User user = await _service.addUser(suser);
 
-                return Created("https://localhost:5004/User", user);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-        
-        
-
-        [HttpGet]
-        public async Task<ActionResult<IList<Adult>>> GetAdults()
-        {
-            _adults = await _service.GetAdults();
-            try
-            {
-                IList<Adult> adults = _adults;
-                return Ok(adults);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-        }
-        
 
         [HttpPost]
         public async Task<ActionResult<Adult>> AddAdult([FromBody] Adult adult)
@@ -84,6 +35,23 @@ namespace api.Controllers
                 Adult added = await _service.addAdult(adult);
 
                 return Created("https://localhost:5004/Person", added);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+        
+        
+        [HttpGet]
+        public async Task<ActionResult<IList<Adult>>> GetAdults()
+        {
+            _adults = await _service.GetAdults();
+            try
+            {
+                IList<Adult> adults = _adults;
+                return Ok(adults);
             }
             catch (Exception e)
             {

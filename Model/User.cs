@@ -12,8 +12,8 @@ public class User {
 
     public User(string userName,string password)
     {
-        this.UserName = userName;
-        this.Password = password;
+       UserName = userName;
+       Password = password;
     }
 }
 }
