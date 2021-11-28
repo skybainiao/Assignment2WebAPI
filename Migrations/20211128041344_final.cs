@@ -2,7 +2,7 @@
 
 namespace api.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,12 +25,27 @@ namespace api.Migrations
                 {
                     table.PrimaryKey("PK_Adults", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserName);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Adults");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

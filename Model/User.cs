@@ -1,11 +1,19 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 namespace LoginExample.Models {
 public class User {
+    
+    [JsonPropertyName("UserName"), Key]
     public string UserName { get; set; }
-    public string Domain { get; set; }
-    public string City { get; set; }
-    public int BirthYear { get; set; }
-    public string Role { get; set; }
-    public int SecurityLevel { get; set; }
+    [JsonPropertyName("Password")]
     public string Password { get; set; }
+
+
+    public User(string userName,string password)
+    {
+        this.UserName = userName;
+        this.Password = password;
+    }
 }
 }

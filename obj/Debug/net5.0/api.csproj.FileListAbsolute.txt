@@ -206,3 +206,4 @@ C:\Users\45527\RiderProjects\Assignment2WebAPI1\obj\Debug\net5.0\api.dll
 C:\Users\45527\RiderProjects\Assignment2WebAPI1\obj\Debug\net5.0\ref\api.dll
 C:\Users\45527\RiderProjects\Assignment2WebAPI1\obj\Debug\net5.0\api.pdb
 C:\Users\45527\RiderProjects\Assignment2WebAPI1\obj\Debug\net5.0\api.genruntimeconfig.cache
+C:\Users\45527\RiderProjects\Assignment2WebAPI1\bin\Debug\net5.0\global.json

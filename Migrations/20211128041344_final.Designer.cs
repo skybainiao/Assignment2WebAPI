@@ -7,15 +7,28 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace api.Migrations
 {
-    [DbContext(typeof(DBConnection))]
-    [Migration("20211126003623_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(DBContext))]
+    [Migration("20211128041344_final")]
+    partial class final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.5");
+
+            modelBuilder.Entity("LoginExample.Models.User", b =>
+                {
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserName");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Models.Adult", b =>
                 {

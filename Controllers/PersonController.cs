@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using api.Impl;
 using FileData;
+using LoginExample.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -14,11 +16,53 @@ namespace api.Controllers
     {
         private FileContext _fileContext = new FileContext();
         private IList<Adult> _adults = new List<Adult>();
+        private IList<User> Users = new List<User>();
+        private DBContext _dbContext = new DBContext();
+        private SqliteService _service;
+
+        public PersonController()
+        {
+            _service = new SqliteService(_dbContext);
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult<IList<Adult>>> GetUsers()
+        {
+            Users = await _service.getUsers();
+            try
+            {
+                IList<User> users = Users;
+                return Ok(users);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUser([FromBody] User suser)
+        {
+            try
+            {
+                User user = await _service.addUser(suser);
+
+                return Created("https://localhost:5004/User", user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+        
+        
 
         [HttpGet]
         public async Task<ActionResult<IList<Adult>>> GetAdults()
         {
-            _adults = _fileContext.Adults;
+            _adults = await _service.GetAdults();
             try
             {
                 IList<Adult> adults = _adults;
@@ -35,12 +79,11 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<Adult>> AddAdult([FromBody] Adult adult)
         {
-            _adults = _fileContext.Adults;
             try
             {
-                _adults.Add(adult);
-                _fileContext.SaveChanges();
-                return Created("https://localhost:5004/Person", adult);
+                Adult added = await _service.addAdult(adult);
+
+                return Created("https://localhost:5004/Person", added);
             }
             catch (Exception e)
             {
@@ -54,17 +97,17 @@ namespace api.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult<Adult>> RemoveAdult([FromRoute] int id)
         {
-            _adults = _fileContext.Adults;
+            _adults = await _service.GetAdults();
             try
             {
                 for (int i = 0; i < _adults.Count; i++)
                 {
                     if (_adults[i].Id == id)
                     {
-                        _adults.Remove(_adults[i]);
+                        _service.RemoveAdult(i);
                     }
                 }
-                _fileContext.SaveChanges();
+                _dbContext.SaveChanges();
                 Console.WriteLine("did");
                 return Accepted($"https://localhost:5004/Person/{id}");
             }
